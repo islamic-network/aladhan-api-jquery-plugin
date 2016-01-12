@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Prayer Times Plugin Test</title>
+        <script src="https://code.jquery.com/jquery-1.12.0.js"></script>
+        <script src="aladhanapi.jquery.js"></script>
+    </head>
+    <body>
+        <script>
+            $(function() {
+                var x = $.alAdhanApi.init(51, 52, 'Europe/London', 2);
+                // This will overwrite our co-ordinates for Istanbul
+                x.coOrdinates('Istanbul, Turkey');
+                x.prayerTimes(1398332113);
+                x.prayerTimesCalendar(02, 2016);
+                x.timeStamp();
+                
+                
+                // Wait a second before actually checking value so there's enough time to get results from the API
+                setTimeout(function() {
+                    console.log(x._times);
+                    console.log(x._calendar);
+                    console.log('Timestamp: ' + x._timestamp);
+                    console.log('Latitude: ' + x._lat + ', ' +  'Longitude: ' + x._lng);
+                }, 1000);
+            });
+        </script>
+        
+    </body>
+</html>
