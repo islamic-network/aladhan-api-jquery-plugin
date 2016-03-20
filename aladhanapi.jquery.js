@@ -9,13 +9,41 @@ jQuery( document ).ready( function( $ ) {
         _times: '',
         _calendar: '',
         _timestamp: '',
-        _xx: '',
+        _city: '',
+        _country: '',
+        _state: '',
         init: function(lat, lng, timezone, method) {
             this._lat = lat;
             this._lng = lng;
             this._timezonename = timezone;
             this._method = method;
             return this;
+        },
+        initForCity: function (city, country, state, method) {
+            this._city = city;
+            this._country = country;
+            this._state = state;
+            this._method = method;
+            return this;
+        },
+        prayerTimesByCity: function(timestamp) {
+            var gc = this;
+            var data = {
+                city: gc._city,
+                country: gc._country,
+                state: gc._state,
+                method: gc._method
+            };
+            // Send to API
+                gc._times = 'Awaiting result from API ...';
+                $.getJSON(
+                    "http://api.aladhan.com/timingsByCity/" + timestamp,
+                    data,
+                    function(result) {
+                        // Return timings
+                        gc._times = result.data;
+                    }
+                );
         },
         prayerTimes: function(timestamp) {
             var gc = this;
@@ -93,6 +121,30 @@ jQuery( document ).ready( function( $ ) {
                  );
             }
         },
+        prayerTimesCalendarByCity: function(month, year) {
+            var gc = this;
+            gc._month = month;
+            gc._year = year;
+            gc._calendar = 'Awaiting result from API ...';
+            if (gc._lat !== '' && gc._lng !== '') {
+                var credentials = {
+                    city: gc._city,
+                    country: gc._country,
+                    state: gc._state,
+                    method: gc._method,
+                    month: gc._month,
+                    year: gc._year
+                };
+                // Send to API
+                 $.getJSON(
+                     "http://api.aladhan.com/calendarByCity/",
+                     credentials,
+                     function(result) {
+                        gc._calendar = result.data;
+                        }
+                 );
+            }
+        }
     }
 });
 

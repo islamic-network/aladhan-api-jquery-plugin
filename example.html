@@ -7,6 +7,7 @@
     <body>
         <script>
             $(function() {
+                // This example will load times using the /timings and /calendar endpoints.
                 var x = $.alAdhanApi.init(51, 52, 'Europe/London', 2);
                 // This will overwrite our co-ordinates for Istanbul
                 x.coOrdinates('Istanbul, Turkey');
@@ -22,6 +23,30 @@
                     console.log('Timestamp: ' + x._timestamp);
                     console.log('Latitude: ' + x._lat + ', ' +  'Longitude: ' + x._lng);
                 }, 1000);
+                
+                // This example will load times using the timingsByCity and CalendarByCity endpoints with a state.
+                var y = $.alAdhanApi.initForCity('Colorado Springs', 'US', 'Colorado', 2);
+                y.prayerTimesByCity(1398332113);
+                y.prayerTimesCalendarByCity(02, 2016);
+                setTimeout(function() {
+                    console.log('Colorado Spring Timings for: ' + y._timestamp);
+                    console.log(y._times);
+                    console.log('Colorado Spring Calendar:');
+                    console.log(y._calendar);
+                }, 1000);
+                
+                // This example will load times using the timingsByCity and CalendarByCity endpoints without a state.
+                var z = $.alAdhanApi.initForCity('Dubai', 'United Arab Emirates', '', 2);
+                z.prayerTimesByCity(1398332113);
+                z.prayerTimesCalendarByCity(02, 2016);
+                setTimeout(function() {
+                    console.log('Dubai Timings for: ' + z._timestamp);
+                    console.log(z._times);
+                    console.log('Dubai Calendar:');
+                    console.log(z._calendar);
+                }, 1000);
+                
+                
             });
         </script>
         
